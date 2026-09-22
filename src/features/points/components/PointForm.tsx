@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { Button } from '../../../shared/ui'
-import { POINT_TYPES, POINT_TYPE_LABELS } from '../lib/pointTypes'
+import { isPointType, POINT_TYPES, POINT_TYPE_LABELS } from '../lib/pointTypes'
 import type { PointType } from '../types'
 
 interface PointFormValues {
@@ -32,7 +32,10 @@ export function PointForm({ onSubmit, onCancel }: PointFormProps) {
         Тип точки
         <select
           value={type}
-          onChange={(event) => setType(event.target.value as PointType)}
+          onChange={(event) => {
+            const { value } = event.target
+            if (isPointType(value)) setType(value)
+          }}
           className="rounded border border-slate-300 px-2 py-1"
         >
           {POINT_TYPES.map((pointType) => (

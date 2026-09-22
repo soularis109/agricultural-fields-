@@ -1,8 +1,8 @@
 import type { ChangeEvent } from 'react'
 import { Button } from '../../../shared/ui'
-import { POINT_TYPES, POINT_TYPE_LABELS } from '../lib/pointTypes'
+import { isSortOrder } from '../lib/points'
+import { isPointType, POINT_TYPES, POINT_TYPE_LABELS } from '../lib/pointTypes'
 import { usePointsStore } from '../store/pointsStore'
-import type { PointFilterState } from '../types'
 
 export function PointFilters() {
   const filters = usePointsStore((state) => state.filters)
@@ -11,11 +11,17 @@ export function PointFilters() {
   const setSortOrder = usePointsStore((state) => state.setSortOrder)
 
   function handleTypeChange(event: ChangeEvent<HTMLSelectElement>) {
-    setFilterType(event.target.value as PointFilterState['type'])
+    const { value } = event.target
+    if (value === 'all' || isPointType(value)) {
+      setFilterType(value)
+    }
   }
 
   function handleSortChange(event: ChangeEvent<HTMLSelectElement>) {
-    setSortOrder(event.target.value as PointFilterState['sortOrder'])
+    const { value } = event.target
+    if (isSortOrder(value)) {
+      setSortOrder(value)
+    }
   }
 
   return (

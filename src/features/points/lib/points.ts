@@ -1,4 +1,10 @@
-import type { MonitoringPoint, PointFilterState } from '../types'
+import type { MonitoringPoint, PointFilterState, SortOrder } from '../types'
+
+export const SORT_ORDERS = ['newest', 'oldest'] as const satisfies readonly SortOrder[]
+
+export function isSortOrder(value: string): value is SortOrder {
+  return (SORT_ORDERS as readonly string[]).includes(value)
+}
 
 /**
  * Pure filtering/sorting, kept out of the Zustand store on purpose: a store
