@@ -14,8 +14,8 @@ export function FieldView() {
   }
 
   return (
-    <div className="flex h-full flex-col lg:flex-row">
-      <aside className="flex flex-col gap-4 overflow-y-auto border-b border-slate-200 p-4 lg:w-64 lg:flex-shrink-0 lg:border-r lg:border-b-0">
+    <div className="flex h-full flex-col overflow-y-auto lg:flex-row lg:overflow-visible">
+      <aside className="flex flex-shrink-0 flex-col gap-4 overflow-y-auto border-b border-slate-200 p-4 lg:w-64 lg:border-r lg:border-b-0">
         <FieldInfoPanel field={activeField} />
         <FieldList activeField={activeField} />
       </aside>
@@ -24,7 +24,7 @@ export function FieldView() {
         <MapView activeField={activeField} />
       </div>
 
-      <aside className="flex flex-col gap-3 overflow-y-auto border-t border-slate-200 p-4 lg:w-96 lg:flex-shrink-0 lg:border-t-0 lg:border-l">
+      <aside className="flex flex-shrink-0 flex-col gap-3 overflow-y-auto border-t border-slate-200 p-4 lg:w-96 lg:border-t-0 lg:border-l">
         <PointFilters />
         <PointList />
       </aside>
