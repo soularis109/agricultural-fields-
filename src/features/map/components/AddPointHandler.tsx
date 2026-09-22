@@ -1,16 +1,8 @@
-import L from 'leaflet'
-import { useEffect, useState } from 'react'
-import { Marker, Popup, useMapEvents } from 'react-leaflet'
-import { isPointInField, type LatLng } from '../../../shared/geo'
+import { Marker, Popup } from 'react-leaflet'
 import { useActiveField } from '../../fields'
 import { PointForm, usePointsStore } from '../../points'
-
-const pendingIcon = L.divIcon({
-  className: '',
-  html: '<span class="block h-4 w-4 rounded-full border-2 border-dashed border-emerald-600 bg-white"></span>',
-  iconSize: [16, 16],
-  iconAnchor: [8, 8],
-})
+import { useAddPointFlow } from '../hooks/useAddPointFlow'
+import { pendingPointIcon } from '../lib/icons'
 
 /**
  * Composes `fields` (active field + geometry) and `points` (addPoint) —
@@ -19,28 +11,7 @@ const pendingIcon = L.divIcon({
 export function AddPointHandler() {
   const activeField = useActiveField()
   const addPoint = usePointsStore((state) => state.addPoint)
-  const [pending, setPending] = useState<LatLng | null>(null)
-  const [showOutsideWarning, setShowOutsideWarning] = useState(false)
-
-  useMapEvents({
-    click(event) {
-      if (!activeField) return
-      const point: LatLng = { lat: event.latlng.lat, lng: event.latlng.lng }
-      if (isPointInField(point, activeField)) {
-        setShowOutsideWarning(false)
-        setPending(point)
-      } else {
-        setPending(null)
-        setShowOutsideWarning(true)
-      }
-    },
-  })
-
-  useEffect(() => {
-    if (!showOutsideWarning) return
-    const timer = setTimeout(() => setShowOutsideWarning(false), 3000)
-    return () => clearTimeout(timer)
-  }, [showOutsideWarning])
+  const { pending, showOutsideWarning, cancel } = useAddPointFlow(activeField)
 
   if (!activeField) return null
 
@@ -53,14 +24,10 @@ export function AddPointHandler() {
       ) : null}
       {pending ? (
         <>
-          <Marker position={pending} icon={pendingIcon} />
+          <Marker position={pending} icon={pendingPointIcon} />
           {/* Standalone (not nested in <Marker>) so it opens immediately —
               a popup nested in a Marker only opens when the marker is clicked. */}
-          <Popup
-            position={pending}
-            autoClose={false}
-            eventHandlers={{ remove: () => setPending(null) }}
-          >
+          <Popup position={pending} autoClose={false} eventHandlers={{ remove: cancel }}>
             <PointForm
               onSubmit={(values) => {
                 addPoint({
@@ -70,9 +37,9 @@ export function AddPointHandler() {
                   lng: pending.lng,
                   ...values,
                 })
-                setPending(null)
+                cancel()
               }}
-              onCancel={() => setPending(null)}
+              onCancel={cancel}
             />
           </Popup>
         </>
