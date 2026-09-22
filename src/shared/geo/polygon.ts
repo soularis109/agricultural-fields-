@@ -9,10 +9,6 @@ function positionToLatLng(position: Position): LatLng {
   return { lat, lng }
 }
 
-/**
- * GeoJSON rings are [lng, lat] positions; react-leaflet's <Polygon positions>
- * wants LatLngLiteral objects. This is the only place that conversion happens.
- */
 export function geoJsonPolygonToLatLngs(field: Feature<Polygon>): LatLng[][] {
   return field.geometry.coordinates.map((ring) => ring.map(positionToLatLng))
 }

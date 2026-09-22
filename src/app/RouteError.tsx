@@ -1,7 +1,5 @@
 import { Link, useRouteError } from 'react-router-dom'
 
-/** Fallback for unexpected render-time errors — distinct from the "field not
- *  found" domain state, which is a valid outcome, not an error. */
 export function RouteError() {
   const error = useRouteError()
   console.error(error)

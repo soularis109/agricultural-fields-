@@ -2,7 +2,6 @@ import { FieldInfoPanel, FieldList, FieldNotFound, useActiveField } from '../fea
 import { MapView } from '../features/map'
 import { PointFilters, PointList } from '../features/points'
 
-/** The page behind /fields/:fieldId — composes fields, points and map. */
 export function FieldView() {
   const activeField = useActiveField()
 

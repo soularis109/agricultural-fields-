@@ -13,10 +13,6 @@ interface PointFormProps {
   onCancel: () => void
 }
 
-/**
- * Rendered by the map feature inside a Leaflet Popup at the clicked
- * location — deliberately not a standalone Modal (see plan, point 8).
- */
 export function PointForm({ onSubmit, onCancel }: PointFormProps) {
   const [type, setType] = useState<PointType>(POINT_TYPES[0])
   const [description, setDescription] = useState('')

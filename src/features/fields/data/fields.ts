@@ -75,11 +75,6 @@ export function getFieldById(id: string): Field | undefined {
   return fields.features.find((field) => field.properties.id === id)
 }
 
-/**
- * The mock dataset is guaranteed non-empty by construction, but the type
- * system doesn't know that — this makes the invariant explicit instead of
- * reaching for a non-null assertion at every call site.
- */
 export function getFirstField(): Field {
   const first = fields.features[0]
   if (!first) {

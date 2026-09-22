@@ -2,7 +2,6 @@ import { useVisiblePoints } from '../hooks/useVisiblePoints'
 import { usePointsStore } from '../store/pointsStore'
 import { PointListItem } from './PointListItem'
 
-/** Shows points from all fields — each row carries its own field's name. */
 export function PointList() {
   const visiblePoints = useVisiblePoints()
   const totalPoints = usePointsStore((state) => state.points.length)

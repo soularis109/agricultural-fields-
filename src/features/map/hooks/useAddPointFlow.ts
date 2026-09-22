@@ -11,10 +11,6 @@ interface UseAddPointFlowResult {
   cancel: () => void
 }
 
-/**
- * Owns the "click on the map to place a point" state machine — extracted
- * out of AddPointHandler so that component is left with rendering only.
- */
 export function useAddPointFlow(activeField: Field | undefined): UseAddPointFlowResult {
   const [pending, setPending] = useState<LatLng | null>(null)
   const [showOutsideWarning, setShowOutsideWarning] = useState(false)

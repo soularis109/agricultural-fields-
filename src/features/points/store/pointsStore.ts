@@ -21,10 +21,6 @@ interface PointsState {
   setSortOrder: (sortOrder: PointFilterState['sortOrder']) => void
 }
 
-/**
- * Raw data and actions only — no selector here ever filters or sorts.
- * See lib/points.ts and hooks/useVisiblePoints.ts for why.
- */
 export const usePointsStore = create<PointsState>()(
   persist(
     (set) => ({

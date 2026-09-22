@@ -4,10 +4,6 @@ import { PointForm, usePointsStore } from '../../points'
 import { useAddPointFlow } from '../hooks/useAddPointFlow'
 import { pendingPointIcon } from '../lib/icons'
 
-/**
- * Composes `fields` (active field + geometry) and `points` (addPoint) —
- * neither of those features imports the other; this is where they meet.
- */
 export function AddPointHandler() {
   const activeField = useActiveField()
   const addPoint = usePointsStore((state) => state.addPoint)
@@ -25,8 +21,6 @@ export function AddPointHandler() {
       {pending ? (
         <>
           <Marker position={pending} icon={pendingPointIcon} />
-          {/* Standalone (not nested in <Marker>) so it opens immediately —
-              a popup nested in a Marker only opens when the marker is clicked. */}
           <Popup position={pending} autoClose={false} eventHandlers={{ remove: cancel }}>
             <PointForm
               onSubmit={(values) => {
