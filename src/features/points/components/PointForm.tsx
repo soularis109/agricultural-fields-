@@ -3,7 +3,7 @@ import { Button } from '../../../shared/ui'
 import { isPointType, POINT_TYPES, POINT_TYPE_LABELS } from '../lib/pointTypes'
 import type { PointType } from '../types'
 
-interface PointFormValues {
+export interface PointFormValues {
   type: PointType
   description?: string
 }

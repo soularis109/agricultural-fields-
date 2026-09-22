@@ -1,8 +1,9 @@
 import { Marker, Popup } from 'react-leaflet'
-import { useActiveField } from '../../fields'
-import { PointForm, usePointsStore } from '../../points'
+import { useActiveField, type Field } from '../../fields'
+import { PointForm, usePointsStore, type PointFormValues } from '../../points'
 import { useAddPointFlow } from '../hooks/useAddPointFlow'
 import { pendingPointIcon } from '../lib/icons'
+import type { LatLng } from '../../../shared/geo'
 
 export function AddPointHandler() {
   const activeField = useActiveField()
@@ -10,6 +11,17 @@ export function AddPointHandler() {
   const { pending, showOutsideWarning, cancel } = useAddPointFlow(activeField)
 
   if (!activeField) return null
+
+  function handleSubmit(field: Field, point: LatLng, values: PointFormValues) {
+    addPoint({
+      fieldId: field.properties.id,
+      fieldName: field.properties.name,
+      lat: point.lat,
+      lng: point.lng,
+      ...values,
+    })
+    cancel()
+  }
 
   return (
     <>
@@ -21,18 +33,13 @@ export function AddPointHandler() {
       {pending ? (
         <>
           <Marker position={pending} icon={pendingPointIcon} />
-          <Popup position={pending} autoClose={false} eventHandlers={{ remove: cancel }}>
+          <Popup
+            position={pending}
+            autoClose={false}
+            eventHandlers={{ remove: cancel }}
+          >
             <PointForm
-              onSubmit={(values) => {
-                addPoint({
-                  fieldId: activeField.properties.id,
-                  fieldName: activeField.properties.name,
-                  lat: pending.lat,
-                  lng: pending.lng,
-                  ...values,
-                })
-                cancel()
-              }}
+              onSubmit={(values) => handleSubmit(activeField, pending, values)}
               onCancel={cancel}
             />
           </Popup>

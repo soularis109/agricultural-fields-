@@ -16,6 +16,13 @@ export const POINT_TYPE_COLORS: Record<PointType, string> = {
   other: '#475569',
 }
 
+export const POINT_TYPE_GLYPHS: Record<PointType, string> = {
+  'soil-sample': '🧪',
+  pests: '🐛',
+  disease: '🦠',
+  other: '◆',
+}
+
 export function isPointType(value: string): value is PointType {
   return (POINT_TYPES as readonly string[]).includes(value)
 }
