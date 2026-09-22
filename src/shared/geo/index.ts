@@ -1,5 +1,5 @@
 export type { LatLng } from './types'
 export { toMgrs } from './mgrs'
 export { isPointInField } from './pointInPolygon'
-export { fieldAreaHectares } from './area'
+export { fieldAreaHectares, formatFieldArea } from './area'
 export { geoJsonPolygonToLatLngs } from './polygon'

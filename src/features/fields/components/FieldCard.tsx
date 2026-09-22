@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { fieldAreaHectares } from '../../../shared/geo'
+import { formatFieldArea } from '../../../shared/geo'
 import type { Field } from '../types'
 
 interface FieldCardProps {
@@ -19,7 +19,7 @@ export function FieldCard({ field, isActive }: FieldCardProps) {
     >
       <span className="block">{field.properties.name}</span>
       <span className="block text-xs text-slate-500">
-        {fieldAreaHectares(field).toFixed(1)} га · {field.properties.crop}
+        {formatFieldArea(field)} · {field.properties.crop}
       </span>
     </Link>
   )

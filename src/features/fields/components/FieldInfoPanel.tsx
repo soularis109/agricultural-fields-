@@ -1,4 +1,4 @@
-import { fieldAreaHectares } from '../../../shared/geo'
+import { formatFieldArea } from '../../../shared/geo'
 import type { Field } from '../types'
 
 interface FieldInfoPanelProps {
@@ -13,7 +13,7 @@ export function FieldInfoPanel({ field }: FieldInfoPanelProps) {
         <dt>Культура</dt>
         <dd>{field.properties.crop}</dd>
         <dt>Площа (за геометрією)</dt>
-        <dd>{fieldAreaHectares(field).toFixed(1)} га</dd>
+        <dd>{formatFieldArea(field)}</dd>
       </dl>
     </div>
   )
