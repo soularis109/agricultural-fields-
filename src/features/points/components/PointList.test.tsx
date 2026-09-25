@@ -24,7 +24,9 @@ describe('PointList', () => {
   it('shows an empty state when there are no points at all', () => {
     render(<PointList />)
 
-    expect(screen.getByText('Точок ще немає.')).toBeInTheDocument()
+    expect(
+      screen.getByText('Точок ще немає. Клікніть усередині виділеного поля на карті, щоб додати.'),
+    ).toBeInTheDocument()
   })
 
   it('shows a "nothing found" state when filters exclude every point', () => {

@@ -29,6 +29,7 @@ export function PointFilters() {
       <select
         value={filters.type}
         onChange={handleTypeChange}
+        aria-label="Тип точки"
         className="rounded border border-slate-300 px-2 py-1 text-sm"
       >
         <option value="all">Усі типи</option>
@@ -43,11 +44,13 @@ export function PointFilters() {
         value={filters.search}
         onChange={(event) => setSearch(event.target.value)}
         placeholder="Пошук за описом..."
+        aria-label="Пошук за описом"
         className="rounded border border-slate-300 px-2 py-1 text-sm"
       />
       <select
         value={filters.sortOrder}
         onChange={handleSortChange}
+        aria-label="Сортування"
         className="rounded border border-slate-300 px-2 py-1 text-sm"
       >
         <option value="newest">Спочатку нові</option>
