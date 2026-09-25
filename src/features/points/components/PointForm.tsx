@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { Button } from '../../../shared/ui'
+import { Button } from '@/shared/ui'
 import { isPointType, POINT_TYPES, POINT_TYPE_LABELS } from '../lib/pointTypes'
 import type { PointType } from '../types'
 

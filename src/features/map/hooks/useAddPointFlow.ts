@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useMapEvents } from 'react-leaflet'
-import { isPointInField, type LatLng } from '../../../shared/geo'
-import type { Field } from '../../fields'
+import { isPointInField, type LatLng } from '@/shared/geo'
+import type { Field } from '@/features/fields'
 import { draftForField, type PointDraft } from '../lib/pointDraft'
 
 const OUTSIDE_WARNING_DURATION_MS = 3000

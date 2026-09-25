@@ -1,5 +1,5 @@
 import { memo } from 'react'
-import { Button } from '../../../shared/ui'
+import { Button } from '@/shared/ui'
 import { usePointDisplay } from '../hooks/usePointDisplay'
 import { usePointsStore } from '../store/pointsStore'
 import type { MonitoringPoint } from '../types'

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { formatFieldArea } from '../../../shared/geo'
+import { formatFieldArea } from '@/shared/geo'
 import type { Field } from '../types'
 
 interface FieldCardProps {

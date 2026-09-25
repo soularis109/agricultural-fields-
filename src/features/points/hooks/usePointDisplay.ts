@@ -1,5 +1,5 @@
-import { toMgrs } from '../../../shared/geo'
-import { formatDate } from '../../../shared/lib'
+import { toMgrs } from '@/shared/geo'
+import { formatDate } from '@/shared/lib'
 import { POINT_TYPE_LABELS } from '../lib/pointTypes'
 import type { MonitoringPoint } from '../types'
 

@@ -1,4 +1,4 @@
-import { formatFieldArea } from '../../../shared/geo'
+import { formatFieldArea } from '@/shared/geo'
 import type { Field } from '../types'
 
 interface FieldInfoPanelProps {

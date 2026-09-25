@@ -1,4 +1,4 @@
-import type { LatLng } from '../../../shared/geo'
+import type { LatLng } from '@/shared/geo'
 
 export interface PointDraft {
   fieldId: string

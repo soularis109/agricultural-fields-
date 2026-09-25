@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { Marker, Popup } from 'react-leaflet'
-import { Button } from '../../../shared/ui'
+import { Button } from '@/shared/ui'
 import { usePointDisplay } from '../hooks/usePointDisplay'
 import { createPointIcon } from '../lib/icons'
 import { usePointsStore } from '../store/pointsStore'

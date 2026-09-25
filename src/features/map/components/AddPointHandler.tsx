@@ -1,9 +1,9 @@
 import { Marker, Popup } from 'react-leaflet'
-import { useActiveField, type Field } from '../../fields'
-import { PointForm, usePointsStore, type PointFormValues } from '../../points'
+import { useActiveField, type Field } from '@/features/fields'
+import { PointForm, usePointsStore, type PointFormValues } from '@/features/points'
 import { useAddPointFlow } from '../hooks/useAddPointFlow'
 import { pendingPointIcon } from '../lib/icons'
-import type { LatLng } from '../../../shared/geo'
+import type { LatLng } from '@/shared/geo'
 
 export function AddPointHandler() {
   const activeField = useActiveField()

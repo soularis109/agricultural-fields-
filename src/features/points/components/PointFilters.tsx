@@ -1,5 +1,5 @@
 import type { ChangeEvent } from 'react'
-import { Button } from '../../../shared/ui'
+import { Button } from '@/shared/ui'
 import { isSortOrder } from '../lib/points'
 import { isPointType, POINT_TYPES, POINT_TYPE_LABELS } from '../lib/pointTypes'
 import { usePointsStore } from '../store/pointsStore'

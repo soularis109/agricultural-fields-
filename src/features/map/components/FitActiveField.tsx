@@ -1,8 +1,8 @@
 import L from 'leaflet'
 import { useEffect } from 'react'
 import { useMap } from 'react-leaflet'
-import type { Field } from '../../fields'
-import { geoJsonPolygonToLatLngs } from '../../../shared/geo'
+import type { Field } from '@/features/fields'
+import { geoJsonPolygonToLatLngs } from '@/shared/geo'
 
 interface FitActiveFieldProps {
   field: Field | undefined
