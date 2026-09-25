@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { restorePoints } from '../lib/points'
 import type { MonitoringPoint, PointFilterState } from '../types'
 
 interface AddPointInput {
@@ -40,6 +41,12 @@ export const usePointsStore = create<PointsState>()(
       setSortOrder: (sortOrder) =>
         set((state) => ({ filters: { ...state.filters, sortOrder } })),
     }),
-    { name: 'agricultural-fields.points' },
+    {
+      name: 'agricultural-fields.points',
+      version: 1,
+      migrate: (persisted) => persisted,
+      partialize: (state) => ({ points: state.points }),
+      merge: (persisted, current) => ({ ...current, points: restorePoints(persisted) }),
+    },
   ),
 )
