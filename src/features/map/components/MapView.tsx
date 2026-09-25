@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { fields, FieldPolygon, type Field } from '../../fields'
 import { PointMarker, useVisiblePoints } from '../../points'
 import { AddPointHandler } from './AddPointHandler'
+import { FitActiveField } from './FitActiveField'
 
 interface MapViewProps {
   activeField: Field | undefined
@@ -32,6 +33,7 @@ export function MapView({ activeField }: MapViewProps) {
         {visiblePoints.map((point) => (
           <PointMarker key={point.id} point={point} />
         ))}
+        <FitActiveField field={activeField} />
         <AddPointHandler />
       </MapContainer>
     </div>
