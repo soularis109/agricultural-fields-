@@ -1,8 +1,8 @@
 import { memo } from 'react'
 import { Marker, Popup } from 'react-leaflet'
 import { Button } from '@/shared/ui'
-import { usePointDisplay } from '../hooks/usePointDisplay'
-import { createPointIcon } from '../lib/icons'
+import { getPointDisplay } from '../lib/pointDisplay'
+import { getPointIcon } from '../lib/icons'
 import { usePointsStore } from '../store/pointsStore'
 import type { MonitoringPoint } from '../types'
 
@@ -12,10 +12,14 @@ interface PointMarkerProps {
 
 export const PointMarker = memo(function PointMarker({ point }: PointMarkerProps) {
   const removePoint = usePointsStore((state) => state.removePoint)
-  const { typeLabel, coordsLabel, mgrsLabel, dateLabel } = usePointDisplay(point)
+  const { typeLabel, coordsLabel, mgrsLabel, dateLabel } = getPointDisplay(point)
 
   return (
-    <Marker position={{ lat: point.lat, lng: point.lng }} icon={createPointIcon(point.type)}>
+    <Marker
+      position={{ lat: point.lat, lng: point.lng }}
+      icon={getPointIcon(point.type)}
+      title={typeLabel}
+    >
       <Popup>
         <div className="flex flex-col gap-1 text-sm">
           <p className="font-medium">{typeLabel}</p>

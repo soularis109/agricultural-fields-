@@ -1,6 +1,6 @@
 import { toMgrs } from '@/shared/geo'
 import { formatDate } from '@/shared/lib'
-import { POINT_TYPE_LABELS } from '../lib/pointTypes'
+import { POINT_TYPE_LABELS } from './pointTypes'
 import type { MonitoringPoint } from '../types'
 
 interface PointDisplay {
@@ -10,7 +10,7 @@ interface PointDisplay {
   dateLabel: string
 }
 
-export function usePointDisplay(point: MonitoringPoint): PointDisplay {
+export function getPointDisplay(point: MonitoringPoint): PointDisplay {
   const mgrs = toMgrs({ lat: point.lat, lng: point.lng })
 
   return {
