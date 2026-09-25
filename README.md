@@ -44,10 +44,12 @@ src/
     lib/      # formatDate
 ```
 
-Кожна фіча має `index.ts` як публічний API; імпорти між фічами йдуть лише через нього.
+Кожна фіча має `index.ts` як публічний API; імпорти між фічами йдуть лише через нього і через alias `@/` (налаштовано в `tsconfig.app.json`/`vite.config.ts`).
 
 **Напрямок залежностей**: `shared` ← `fields`, `points` ← `map` (композує `fields` + `points`) ← `app`.
-`fields` і `points` **ніколи не імпортують одне одного** — `AddPointHandler` (у `map`) бере активне поле через `fields.useActiveField()`, валідує клік через `shared/geo.isPointInField`, і викликає `points.usePointsStore().addPoint(...)`, передаючи `fieldId`/`fieldName` як прості рядки. Це тримає `points` незалежним від геометрії полів.
+`fields` і `points` **ніколи не імпортують одне одного** — `useAddPointFlow` (хук у `map`) бере активне поле через `fields.useActiveField()`, валідує клік через `shared/geo.isPointInField`, а `AddPointHandler` викликає `points.usePointsStore().addPoint(...)` при сабміті форми, передаючи `fieldId`/`fieldName` як прості рядки. Це тримає `points` незалежним від геометрії полів.
+
+Ці правила — не лише домовленість: `no-restricted-imports` у `eslint.config.js` перевіряє їх автоматично (`fields ↔ points` заборонено, `shared` не залежить від фіч/`app`/Leaflet, глибокі `@/features/*/*`-імпорти повз `index.ts` заборонені, гео-бібліотеки — лише в `shared/geo`), тож порушення межі ловить `pnpm lint`.
 
 ## Активне поле — тільки в URL
 
@@ -97,14 +99,23 @@ src/
 pnpm test
 ```
 
+46 тестів у 11 файлах:
+
 - `shared/geo/geo.test.ts` — `isPointInField`: точка всередині/зовні полігону.
 - `shared/geo/mgrs.test.ts` — конвертація з еталоном із незалежного джерела + fallback на некоректний вхід.
-- `features/points/lib/points.test.ts` — фільтрація за типом/пошуком, сортування, незмінність вхідного масиву.
+- `shared/geo/area.test.ts` — площа поля з геометрії (`fieldAreaHectares`) і форматування (`formatFieldArea`).
+- `shared/geo/polygon.test.ts` — конвертація `[lng, lat]` → `{ lat, lng }`, throw на биту позицію.
+- `features/points/lib/points.test.ts` — фільтрація за типом/пошуком, сортування, незмінність вхідного масиву, валідація персистованих даних (`isMonitoringPoint`/`restorePoints`).
+- `features/points/lib/pointTypes.test.ts` — `isPointType`/`isSortOrder`.
+- `features/points/store/pointsStore.test.ts` — `addPoint` (id/дата), `removePoint`, сетери фільтрів не чіпають `points`.
+- `features/points/components/PointForm.test.tsx` — тип за замовчуванням, обрізання опису, скасування.
+- `features/points/components/PointFilters.test.tsx` — кожен контрол пише у стор, «Скинути» повертає дефолт.
+- `features/points/components/PointList.test.tsx` — «Точок ще немає» / «Нічого не знайдено» / рендер видимих точок.
+- `features/map/lib/pointDraft.test.ts` — чернетка точки прив'язана до поля, у якому її створили.
+
+`FieldPolygon`, `PointMarker` і `MapView` свідомо не покриті: Leaflet у jsdom не отримує реальних розмірів DOM — це кандидат на E2E (Playwright), а не на unit-тест.
 
 ## Що б я додав, маючи більше часу
 
-- **Тести компонентів.** `@testing-library/react`/`user-event` вже стоять у `devDependencies`, але жодного `.test.tsx` немає — усі наявні тести покривають лише чисті утиліти. Додав би тести на `PointForm` (валідація/сабміт), `PointFilters` (зміна фільтрів) і `FieldView` (роутинг `FieldNotFound` vs. активне поле).
-- **Тест на `fieldAreaHectares`/`formatFieldArea`** (`shared/geo/area.ts`) — єдина geo-утиліта без власного тесту.
 - **Довести відокремлення від Leaflet до кінця.** `PointMarker` і `FieldPolygon` (доменні компоненти `points`/`fields`) усе ще напряму рендерять `react-leaflet`-примітиви. Переніс би сам мап-рендеринг у `features/map`, залишивши `points`/`fields` геть незалежними від конкретної бібліотеки карт — без циклічної залежності `points ↔ map`, у яку впирається пряме перенесення фабрики іконок.
 - **E2E-тести** (Playwright) на ключовий сценарій: клік по карті → форма → точка з'являється в списку і на мапі.
-- **Доступність кастомних Leaflet-маркерів** (`L.divIcon`) — зараз без `aria-label`/`role`, недоступні для скрінрідерів.
