@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { MonitoringPoint } from '../types'
-import { filterPoints, sortPoints } from './points'
+import { filterPoints, isMonitoringPoint, restorePoints, sortPoints } from './points'
 
 const points: MonitoringPoint[] = [
   {
@@ -65,5 +65,39 @@ describe('sortPoints', () => {
     const copy = [...points]
     sortPoints(points, 'oldest')
     expect(points).toEqual(copy)
+  })
+})
+
+describe('isMonitoringPoint', () => {
+  it('accepts a valid point', () => {
+    expect(isMonitoringPoint(points[0])).toBe(true)
+  })
+
+  it('rejects an unknown point type', () => {
+    expect(isMonitoringPoint({ ...points[0], type: 'unknown' })).toBe(false)
+  })
+
+  it('rejects a point missing a required field', () => {
+    const withoutFieldName: Record<string, unknown> = { ...points[0] }
+    delete withoutFieldName.fieldName
+    expect(isMonitoringPoint(withoutFieldName)).toBe(false)
+  })
+
+  it('rejects non-objects', () => {
+    expect(isMonitoringPoint(null)).toBe(false)
+    expect(isMonitoringPoint('point')).toBe(false)
+  })
+})
+
+describe('restorePoints', () => {
+  it('keeps only valid points and drops garbage entries', () => {
+    const persisted = { points: [points[0], { bad: true }, points[1]] }
+    expect(restorePoints(persisted)).toEqual([points[0], points[1]])
+  })
+
+  it('returns an empty array when points is missing or not an array', () => {
+    expect(restorePoints(undefined)).toEqual([])
+    expect(restorePoints({})).toEqual([])
+    expect(restorePoints({ points: 'not-an-array' })).toEqual([])
   })
 })

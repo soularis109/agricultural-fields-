@@ -7,7 +7,11 @@ export function PointList() {
   const totalPoints = usePointsStore((state) => state.points.length)
 
   if (totalPoints === 0) {
-    return <p className="text-sm text-slate-500">Точок ще немає.</p>
+    return (
+      <p className="text-sm text-slate-500">
+        Точок ще немає. Клікніть усередині виділеного поля на карті, щоб додати.
+      </p>
+    )
   }
 
   if (visiblePoints.length === 0) {

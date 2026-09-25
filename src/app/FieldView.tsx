@@ -1,6 +1,6 @@
-import { FieldInfoPanel, FieldList, FieldNotFound, useActiveField } from '../features/fields'
-import { MapView } from '../features/map'
-import { PointFilters, PointList } from '../features/points'
+import { FieldInfoPanel, FieldList, FieldNotFound, useActiveField } from '@/features/fields'
+import { MapView } from '@/features/map'
+import { PointFilters, PointList } from '@/features/points'
 
 export function FieldView() {
   const activeField = useActiveField()

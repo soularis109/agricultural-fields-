@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useMapEvents } from 'react-leaflet'
-import { isPointInField, type LatLng } from '../../../shared/geo'
-import type { Field } from '../../fields'
+import { isPointInField, type LatLng } from '@/shared/geo'
+import type { Field } from '@/features/fields'
+import { draftForField, type PointDraft } from '../lib/pointDraft'
 
 const OUTSIDE_WARNING_DURATION_MS = 3000
 
@@ -12,8 +13,9 @@ interface UseAddPointFlowResult {
 }
 
 export function useAddPointFlow(activeField: Field | undefined): UseAddPointFlowResult {
-  const [pending, setPending] = useState<LatLng | null>(null)
+  const [draft, setDraft] = useState<PointDraft | null>(null)
   const [showOutsideWarning, setShowOutsideWarning] = useState(false)
+  const pending = draftForField(draft, activeField?.properties.id)
 
   useMapEvents({
     click(event) {
@@ -21,9 +23,9 @@ export function useAddPointFlow(activeField: Field | undefined): UseAddPointFlow
       const point: LatLng = { lat: event.latlng.lat, lng: event.latlng.lng }
       if (isPointInField(point, activeField)) {
         setShowOutsideWarning(false)
-        setPending(point)
+        setDraft({ fieldId: activeField.properties.id, point })
       } else {
-        setPending(null)
+        setDraft(null)
         setShowOutsideWarning(true)
       }
     },
@@ -35,5 +37,5 @@ export function useAddPointFlow(activeField: Field | undefined): UseAddPointFlow
     return () => clearTimeout(timer)
   }, [showOutsideWarning])
 
-  return { pending, showOutsideWarning, cancel: () => setPending(null) }
+  return { pending, showOutsideWarning, cancel: () => setDraft(null) }
 }

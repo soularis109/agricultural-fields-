@@ -1,6 +1,6 @@
 import { memo } from 'react'
-import { Button } from '../../../shared/ui'
-import { usePointDisplay } from '../hooks/usePointDisplay'
+import { Button } from '@/shared/ui'
+import { getPointDisplay } from '../lib/pointDisplay'
 import { usePointsStore } from '../store/pointsStore'
 import type { MonitoringPoint } from '../types'
 
@@ -10,7 +10,7 @@ interface PointListItemProps {
 
 export const PointListItem = memo(function PointListItem({ point }: PointListItemProps) {
   const removePoint = usePointsStore((state) => state.removePoint)
-  const { typeLabel, coordsLabel, mgrsLabel, dateLabel } = usePointDisplay(point)
+  const { typeLabel, coordsLabel, mgrsLabel, dateLabel } = getPointDisplay(point)
 
   return (
     <li className="flex items-start justify-between gap-3 rounded-md border border-slate-200 p-3">

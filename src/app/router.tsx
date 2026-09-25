@@ -1,5 +1,5 @@
 import { createBrowserRouter, redirect } from 'react-router-dom'
-import { getFirstField } from '../features/fields'
+import { getFirstField } from '@/features/fields'
 import { AppShell } from './AppShell'
 import { FieldView } from './FieldView'
 import { RouteError } from './RouteError'

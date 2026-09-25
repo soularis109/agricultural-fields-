@@ -1,6 +1,6 @@
 import L from 'leaflet'
 import { Polygon, Tooltip } from 'react-leaflet'
-import { geoJsonPolygonToLatLngs } from '../../../shared/geo'
+import { geoJsonPolygonToLatLngs } from '@/shared/geo'
 import type { Field } from '../types'
 
 interface FieldPolygonProps {
